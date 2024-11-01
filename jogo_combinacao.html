@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Combinação de Educação Financeira</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+            text-align: left;
+            position: relative;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .score-box {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .combination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .correct {
+            background-color: #32cd32; /* Verde */
+        }
+        .incorrect {
+            background-color: #ff6347; /* Vermelho */
+        }
+        .feedback {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #ff6347;
+        }
+        .correct-answer-box {
+            position: absolute;
+            top: 10px;
+            right: -210px;
+            width: 200px;
+            padding: 8px;
+            background-color: #32cd32;
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+        }
+        select {
+            padding: 5px;
+            font-size: 16px;
+            width: 60%;
+        }
+        button {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        p.description {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Educação Financeira Familiar</h1>
+        <div class="score-box">
+            Pontuação: <span id="score">0</span>
+        </div>
+    </div>
+
+    <p class="description">Combine cada situação com a resposta correta sobre finanças familiares!</p>
+
+    <div class="combination" id="combo1">
+        <span>Situação 1: Guardar dinheiro para imprevistos</span>
+        <select id="answer1">
+            <option value="Escolha">Escolha...</option>
+            <option value="Investir tudo em ações">Investir tudo em ações</option>
+            <option value="Criar um fundo de emergência">Criar um fundo de emergência</option>
+            <option value="Gastar em lazer">Gastar em lazer</option>
+        </select>
+        <div class="correct-answer-box" id="correct1">Resposta correta: Criar um fundo de emergência</div>
+    </div>
+
+    <div class="combination" id="combo2">
+        <span>Situação 2: Controlar gastos mensais</span>
+        <select id="answer2">
+            <option value="Escolha">Escolha...</option>
+            <option value="Ignorar o saldo bancário">Ignorar o saldo bancário</option>
+            <option value="Planejar o orçamento">Planejar o orçamento</option>
+            <option value="Usar o cartão sem limites">Usar o cartão sem limites</option>
+        </select>
+        <div class="correct-answer-box" id="correct2">Resposta correta: Planejar o orçamento</div>
+    </div>
+
+    <div class="combination" id="combo3">
+        <span>Situação 3: Educação financeira para os filhos</span>
+        <select id="answer3">
+            <option value="Escolha">Escolha...</option>
+            <option value="Ensinar a importância de poupar">Ensinar a importância de poupar</option>
+            <option value="Dar mesada sem controle">Dar mesada sem controle</option>
+            <option value="Deixar que gastem à vontade">Deixar que gastem à vontade</option>
+        </select>
+        <div class="correct-answer-box" id="correct3">Resposta correta: Ensinar a importância de poupar</div>
+    </div>
+
+    <div class="combination" id="combo4">
+        <span>Situação 4: Economizar para uma compra grande</span>
+        <select id="answer4">
+            <option value="Escolha">Escolha...</option>
+            <option value="Poupar ao longo do tempo">Poupar ao longo do tempo</option>
+            <option value="Fazer um empréstimo imediato">Fazer um empréstimo imediato</option>
+            <option value="Usar o cheque especial">Usar o cheque especial</option>
+        </select>
+        <div class="correct-answer-box" id="correct4">Resposta correta: Poupar ao longo do tempo</div>
+    </div>
+
+    <button onclick="checkAnswers()">Verificar Respostas</button>
+
+    <script>
+        let score = 0;
+
+        function checkAnswers() {
+            // Respostas corretas
+            const correctAnswers = {
+                answer1: "Criar um fundo de emergência",
+                answer2: "Planejar o orçamento",
+                answer3: "Ensinar a importância de poupar",
+                answer4: "Poupar ao longo do tempo"
+            };
+
+            // Verifica cada resposta e altera a cor da combinação, exibindo a resposta correta se necessário
+            for (let i = 1; i <= 4; i++) {
+                const answer = document.getElementById('answer' + i).value;
+                const combo = document.getElementById('combo' + i);
+                const correctBox = document.getElementById('correct' + i);
+                
+                if (answer === correctAnswers['answer' + i]) {
+                    combo.classList.add("correct");
+                    combo.classList.remove("incorrect");
+                    correctBox.style.display = "none"; // Esconde a caixa de resposta correta se estiver correta
+
+                    // Adiciona 10 pontos para cada resposta correta
+                    if (!combo.classList.contains("scored")) {
+                        score += 10;
+                        combo.classList.add("scored");
+                    }
+                } else {
+                    combo.classList.add("incorrect");
+                    combo.classList.remove("correct");
+                    correctBox.style.display = "block"; // Mostra a caixa de resposta correta se estiver incorreta
+                }
+            }
+
+            // Atualiza a pontuação na tela
+            document.getElementById('score').innerText = score;
+        }
+    </script>
+</body>
+</html>

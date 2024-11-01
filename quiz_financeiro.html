@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Educação Financeira</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 600px; 
+            margin: auto; 
+            background-color: #001f3f; /* Azul marinho */
+            color: #ffffff; /* Texto branco */
+            padding: 20px;
+            position: relative;
+        }
+        .question { display: none; margin-bottom: 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 8px 0; }
+        button { margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        h1, h2 { color: #ffffff; }
+    </style>
+</head>
+<body>
+    <h1>Quiz de Educação Financeira para a Família</h1>
+    <div id="quiz-container">
+        <div id="question-1" class="question">
+            <p>1. Qual é a melhor prática para economizar dinheiro?</p>
+            <ul>
+                <li><button onclick="checkAnswer(1, 'errado', 'A melhor prática é criar um fundo de emergência para cobrir despesas imprevistas.')">Não ter fundo de emergência</button></li>
+                <li><button onclick="checkAnswer(1, 'correto')">Criar um fundo de emergência</button></li>
+                <li><button onclick="checkAnswer(1, 'errado', 'Gastar todo o salário no primeiro dia dificulta o controle financeiro e aumenta o risco de endividamento.')">Gastar todo o salário no primeiro dia</button></li>
+            </ul>
+        </div>
+        
+        <div id="question-2" class="question">
+            <p>2. Qual é a porcentagem ideal da renda para poupança?</p>
+            <ul>
+                <li><button onclick="checkAnswer(2, 'errado', 'Guardar 50% da renda pode comprometer outros aspectos financeiros, tornando-se inviável. O ideal é poupar cerca de 20%, o que permite equilíbrio entre gastos e economia.')">50%</button></li>
+                <li><button onclick="checkAnswer(2, 'correto')">20%</button></li>
+                <li><button onclick="checkAnswer(2, 'errado', 'Poupar apenas 5% da renda pode ser insuficiente para construir um patrimônio sólido. Um valor ideal é por volta de 20%.')">5%</button></li>
+            </ul>
+        </div>
+        
+        <div id="question-3" class="question">
+            <p>3. O que é um investimento de baixo risco?</p>
+            <ul>
+                <li><button onclick="checkAnswer(3, 'errado', 'Ações são de alto risco devido à sua volatilidade e à oscilação constante dos preços. Para investimentos de baixo risco, opções como o Tesouro Direto são mais adequadas.')">Ações</button></li>
+                <li><button onclick="checkAnswer(3, 'correto')">Tesouro Direto</button></li>
+                <li><button onclick="checkAnswer(3, 'errado', 'Criptomoedas são altamente voláteis, o que as torna um investimento de alto risco. Tesouro Direto é mais indicado para baixo risco.')">Criptomoedas</button></li>
+            </ul>
+        </div>
+        
+        <div id="question-4" class="question">
+            <p>4. O que é um gasto essencial?</p>
+            <ul>
+                <li><button onclick="checkAnswer(4, 'correto')">Aluguel</button></li>
+                <li><button onclick="checkAnswer(4, 'errado', 'Viagens são consideradas despesas supérfluas, não essenciais para o dia a dia. Gastos essenciais geralmente são ligados à moradia e alimentação, como o aluguel.')">Viagens</button></li>
+                <li><button onclick="checkAnswer(4, 'errado', 'Presentes são gastos supérfluos, não essenciais. O aluguel, por exemplo, é um gasto necessário para o bem-estar e moradia.')">Presentes</button></li>
+            </ul>
+        </div>
+        
+        <div id="question-5" class="question">
+            <p>5. Qual é uma boa prática para evitar endividamento?</p>
+            <ul>
+                <li><button onclick="checkAnswer(5, 'correto')">Planejar o orçamento mensal</button></li>
+                <li><button onclick="checkAnswer(5, 'errado', 'Ignorar o saldo bancário aumenta o risco de gastos excessivos e falta de controle financeiro. Manter um planejamento mensal ajuda a evitar dívidas.')">Ignorar o saldo bancário</button></li>
+                <li><button onclick="checkAnswer(5, 'errado', 'Considerar o cartão de crédito como dinheiro extra é uma prática arriscada e leva ao endividamento. Um planejamento mensal é a prática recomendada.')">Considerar o cartão de crédito como dinheiro extra</button></li>
+            </ul>
+        </div>
+
+        <div id="end-screen" class="question">
+            <h2>Quiz Finalizado</h2>
+            <p>Você concluiu todas as perguntas. Vamos revisar os erros.</p>
+            <button onclick="reviewErrors()">Revisar Erros</button>
+        </div>
+
+        <div id="finish-screen" class="question">
+            <h2>Parabéns!</h2>
+            <p>Você acertou todas as respostas! Obrigado por jogar.</p>
+            <button onclick="restartQuiz()">Voltar à Tela Inicial</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        let errors = [];
+        let correctAnswers = new Set();
+
+        function showQuestion(number) {
+            document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
+            document.getElementById('question-' + number).style.display = 'block';
+        }
+
+        function checkAnswer(questionNumber, answer, message = '') {
+            if (answer === 'correto') {
+                correctAnswers.add(questionNumber);
+                nextQuestion();
+            } else {
+                if (!correctAnswers.has(questionNumber) && !errors.includes(questionNumber)) {
+                    errors.push(questionNumber);
+                    alert('Resposta incorreta: ' + message);
+                }
+                nextQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion <= 5) {
+                showQuestion(currentQuestion);
+            } else {
+                showEndScreen();
+            }
+        }
+
+        function showEndScreen() {
+            document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
+            document.getElementById('end-screen').style.display = 'block';
+        }
+
+        function reviewErrors() {
+            errors = errors.filter(questionNumber => !correctAnswers.has(questionNumber));
+            if (errors.length > 0) {
+                currentQuestion = errors.shift();
+                showQuestion(currentQuestion);
+            } else {
+                showFinishScreen();
+            }
+        }
+
+        function showFinishScreen() {
+            document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
+            document.getElementById('finish-screen').style.display = 'block';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            errors = [];
+            correctAnswers.clear();
+            showQuestion(currentQuestion);
+        }
+
+        showQuestion(currentQuestion);
+    </script>
+</body>
+</html>
